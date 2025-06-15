@@ -8,14 +8,11 @@ V1.1.0
 
 文件名	必须带后缀（如.jpg .pdf），否则文件格式错误。
 
-'''markdown
-'''python
-
+```python
 import requests
 import os
 import tkinter as tk
 from tkinter import messagebox
-
 
 def get_info(url):
     try:
@@ -29,7 +26,6 @@ def get_info(url):
         # 打印错误信息
         print(e)
         return None
-
 
 def start_download():
     # 获取输入框中的内容
@@ -59,7 +55,6 @@ def start_download():
     else:
         messagebox.showerror("下载失败", '资源爬取失败，请检查 URL 或网络连接。')
 
-
 # 创建主窗口
 root = tk.Tk()
 root.title("爬虫(下载大文件时,时间会有点长,请耐心等待,本程序仅供娱乐)")
@@ -83,3 +78,4 @@ download_button.grid(row=3, column=0, columnspan=2, pady=20)
 
 # 运行主循环
 root.mainloop()
+```
