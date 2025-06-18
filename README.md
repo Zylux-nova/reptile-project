@@ -7,14 +7,37 @@ V1.1.0
 保存路径	D:\downloads（Windows）	可选，不填则保存到程序当前目录；需确保目录存在或允许程序自动创建。
 
 文件名	必须带后缀（如.jpg .pdf），否则文件格式错误。
+
 V1.2.0
+
 此软件版本未作过多变化，添加了自动扫描并添加所需运行库的功能
 
+
 ```python
-import requests
-import os
-import tkinter as tk
-from tkinter import messagebox
+import subprocess
+import sys
+
+try:
+    import requests
+    import os
+    import tkinter as tk
+    from tkinter import messagebox
+except ImportError as e:
+    missing_library = str(e).split("'")[1]
+    print(f"发现缺失库 {missing_library}，正在尝试安装...")
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", missing_library])
+        print(f"{missing_library} 安装成功！")
+        # 重新导入库
+        if missing_library == "requests":
+            import requests
+        elif missing_library == "tkinter":
+            import tkinter as tk
+            from tkinter import messagebox
+    except subprocess.CalledProcessError:
+        print(f"安装 {missing_library} 失败，请手动安装。")
+        sys.exit(1)
+
 
 def get_info(url):
     try:
@@ -28,6 +51,7 @@ def get_info(url):
         # 打印错误信息
         print(e)
         return None
+
 
 def start_download():
     # 获取输入框中的内容
@@ -56,6 +80,7 @@ def start_download():
             messagebox.showerror("下载失败", "下载出现问题，请检查网络连接。")
     else:
         messagebox.showerror("下载失败", '资源爬取失败，请检查 URL 或网络连接。')
+
 
 # 创建主窗口
 root = tk.Tk()
